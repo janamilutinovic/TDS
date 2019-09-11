@@ -1,0 +1,14 @@
+{% extends "tds_site/base.html" %}
+{% block content %}
+{% for link in links %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h2 class="article-title"><a class="mr-2" href="{% url 'link-redirect' link.id %}">{{ link.link }}</a></h2>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'link-detail' link.id %}">Link Preferences</a>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'link-delete' link.id %}">Delete Link</a>
+        </div>
+    </div>
+</article>
+{% endfor %}
+{% endblock content%}

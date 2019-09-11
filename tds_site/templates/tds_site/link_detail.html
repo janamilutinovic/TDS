@@ -1,0 +1,18 @@
+{% extends "tds_site/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <a class="btn btn-success mt-2 mb-2" href="{% url 'linkpref-create' link.id %}">Add Preferences</a>
+                <legend class="border-bottom mb-4">Link Preferences for link : "{{ link }}"</legend>
+                {% for linkpref in link.linkpref_set.all %}
+                    <p> <b>Landing page {{forloop.counter }} :</b>{{ linkpref.landing_page }} </p>
+                    <p> <b>Country:</b> {{ linkpref.country }} </p>
+                    <p> <b>Weight:</b> {{ linkpref.weight }} </p>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'linkpref-update' linkpref.id %}">Edit Preferences</a>
+                {% endfor %}
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
