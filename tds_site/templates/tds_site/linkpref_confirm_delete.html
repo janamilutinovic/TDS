@@ -5,11 +5,11 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete Link</legend>
-                <h2>Are you sure you want to delete the link "{{ link.link }}"</h2>
+                <h2>Are you sure you want to delete the link "{{ linkpref.landing_page }}"</h2>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
-                <a class="btn btn-outline-secondary" href="{% url 'link-detail' link.id %}">Cancel</a>
+                <a class="btn btn-outline-secondary" href="{% url 'link-detail' linkpref.id %}">Cancel</a>
             </div>
         </form>
     </div>

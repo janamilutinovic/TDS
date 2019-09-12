@@ -11,6 +11,7 @@
                     <p> <b>Country:</b> {{ linkpref.country }} </p>
                     <p> <b>Weight:</b> {{ linkpref.weight }} </p>
                     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'linkpref-update' linkpref.id %}">Edit Preferences</a>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'linkpref-delete' linkpref.pk %}">Delete url</a>
                 {% endfor %}
             </fieldset>
         </form>

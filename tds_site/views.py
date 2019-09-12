@@ -1,11 +1,15 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Link, LinkPref
+from .models import Link, LinkPref, LinkStat
 from django.http import HttpResponse
 from .forms import LinkPrefForm, LinkPrefUpdateForm
 from django.views import View
 from django.contrib.gis.geoip2 import GeoIP2
+from rest_framework import viewsets
+from .serializers import LinkStatSerializer
+import numpy as np
+
 
 # Create your views here.
 
@@ -125,6 +129,17 @@ class LinkUpdateView(LoginRequiredMixin,UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
+class LinkPrefDeleteView(LoginRequiredMixin,DeleteView):
+    model = LinkPref
+    success_url = '/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class LinkStatView(viewsets.ModelViewSet):
+    queryset = LinkStat.objects.all()
+    serializer_class = LinkStatSerializer
+
 
 def link_redirect_view(request, link_id):
     link = get_object_or_404(Link, pk=link_id)
@@ -138,21 +153,16 @@ def link_redirect_view(request, link_id):
     # print("get ip ", request.META.get('HTTP_X_FORWARDED_FOR'))
     redirect_page = "https://google.com"
     linkprefs = link.linkpref_set.all()
+    rps = {}
     for lp in linkprefs:
         print(lp.country.code)
         if lp.country.code == my_country_code:
-            redirect_page = lp.landing_page
+            rps[lp.landing_page] = lp.weight
 
+
+    redirect_page = np.random.choice(list(rps.keys()), p=list(rps.values()))
+    print(redirect_page)
     return redirect(redirect_page)
-
-
-
-
-
-
-
-
-
 
 
 
